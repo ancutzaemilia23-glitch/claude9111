@@ -44,7 +44,8 @@ INFPRR_SEARCH folder scanned by script 20 for EQI/Eurostat/OWID     default D:/
 ## Running
 
 ```
-Rscript reproduce.R          # everything below, each script in a fresh R process
+source("ALL_IN_ONE.R")       # whole pipeline in one file (RStudio: open it, Ctrl+Shift+S)
+Rscript reproduce.R          # same steps, each script in a fresh R process
 Rscript reproduce.R core     # RUN_ANALYSIS -> 14 only
 ```
 
