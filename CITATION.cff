@@ -1,0 +1,24 @@
+# TEMPLATE -- author names, ORCIDs, title and DOI must be filled in by the
+# authors; nothing below has been verified.
+cff-version: 1.2.0
+message: "If you use this code, please cite the article and this repository."
+title: "Replication code: Informality and the political translation of institutional dissatisfaction (EES 2024)"
+type: software
+authors:
+  - family-names: "TODO"
+    given-names: "TODO"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+version: "0.1.0"
+date-released: "2026-09-25"
+license: "TODO"
+references:
+  - type: dataset
+    title: "European Parliament Election Study 2024, Voter Study (ZA8868, v1.0.0)"
+    publisher: { name: "GESIS" }
+    notes: "Full citation and DOI: VERIFY against the GESIS catalogue entry."
+  - type: dataset
+    title: "Chapel Hill Expert Survey trend file 1999-2024 (means, v2)"
+    notes: "VERIFY citation and version."
+  - type: dataset
+    title: "World Bank Informal Economy Database"
+    notes: "Elgin, Kose, Ohnsorge & Yu (2021) -- VERIFY exact reference and download date."

@@ -1,0 +1,8 @@
+output/
+derived/
+logs/
+figures/
+run_logs/
+*.sav
+*.Rhistory
+.Rproj.user/
