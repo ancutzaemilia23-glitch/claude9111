@@ -36,9 +36,15 @@
 #     labelling it "PTV points" (print only).
 #   - stops if ITN has more than one row in the ballot frame (tibble() would
 #     silently recycle and add two ITN linkage rows).
+#   - RUN THIS FILE WHOLE: source("R/18_itn_correction_and_KH.R", echo = TRUE)
+#     or Rscript. Pasting it into the console can drop lines (it did: section 2
+#     and the slope() definition were lost, and a stale `d` from another
+#     script was used). Guards before sections 3 and 4 now stop in that case.
 # =============================================================================
 
 while (sink.number() > 0) sink()
+closeAllConnections()   # CHANGE: close connections left open by an aborted script (e.g. 15b)
+rm(list = ls())   # CHANGE: no stale objects (e.g. `d`) from other scripts in this session
 PROJ <- Sys.getenv("INFPRR_PROJ", "D:/Cluj/informality-prr")
 RAW  <- Sys.getenv("INFPRR_RAW",  "D:/Cluj")
 paths <- list(raw_ees24 = file.path(RAW, "ZA8868_v1-0-0.sav"),
@@ -148,6 +154,10 @@ slope <- function(dat, yvar, xvar = "dissatisfied", extra = NULL) {
     tibble::tibble(cty = k, b = ct[xvar, 1], se = ct[xvar, 2])
   })
 }
+# FIX: stop if section 2 or the slope() definition did not run in this session
+stopifnot("section 2 did not run: `d` lacks prr_corr/ptv_corr" =
+            all(c("prr_conf", "prr_corr", "ptv_corr") %in% names(d)),
+          "slope() is not defined: run the whole file" = exists("slope", mode = "function"))
 vot <- d |> dplyr::filter(classified, cty %in% prr_ctys)
 ptv <- d |> dplyr::filter(cty %in% prr_ctys)
 
@@ -167,6 +177,7 @@ for (cl in c("conf","corr")) {
 mod <- read_keepNA(file.path(paths$output, "10_moderator.csv")) |>
   dplyr::select(cty, informality, incumbent, cee)
 slopes <- dplyr::bind_rows(S) |> dplyr::left_join(mod, by = "cty")
+stopifnot("stage one incomplete" = setequal(unique(slopes$classification), c("conf", "corr")))
 
 # check: conference slopes reproduce RUN_ANALYSIS Part 2
 old <- read_keepNA(file.path(paths$output, "10_moderator.csv")) |> dplyr::select(cty, b_old = b)
